@@ -1,0 +1,29 @@
+#displayContainer {
+    display:flex;
+    border-style: solid;
+    width: 300px;
+    height: 75px;
+    justify-content: right;
+    margin: 10px;
+    padding: 5px 15px;
+}
+
+.calcNumButtons {
+    display: flex;
+    margin-left: 30px;
+}
+
+.calcOperatorButtons {
+    margin-left: 30px;
+}
+
+.operatorButton {
+    background-color: rgb(10, 13, 216);
+    color: white;
+}
+
+.clearButton {
+    background-color: rgb(255, 183, 0);
+    color: white;
+    margin-left: 30px;
+}
