@@ -1,41 +1,29 @@
-let addition = (a, b) => a + b;
+let addition = (a, b) => Number(a) + Number(b);
+let subtraction = (a, b) => Number(a) - Number(b);
+let multiplication = (a, b) => Number(a) * Number(b);
+let division = (a, b) => Number(a) / Number(b);
 
-let subtraction = (a, b) => a - b;
-
-let multiplication = (a, b) => a * b;
-
-let division = (a, b) => a / b;
-
-function operate (operatorValue, a, b) {
+function operate (a, b, operatorValue) {
+    //can do switch??
     if (operatorValue == '+') {
-        c = addition(a, b);
-        return c;
-    }
-
-    else if (operatorValue == '-') {
-        c = subtraction(a, b);
-        return c;
-    }
-
-    else if (operatorValue == '*') {
-        c = multiplication(a, b);
-        return c;
-    }
-    else if (operatorValue == '/') {
-        c = division(a, b);
-        return c;
+        return c = addition(a, b);
+    } else if (operatorValue == '-') {
+        return c = subtraction(a, b);
+    } else if (operatorValue == '*') {
+        return c = multiplication(a, b);
+    } else if (operatorValue == '/') {
+        return c = division(a, b);
     }
 }
 
-function displayValues(buttonHTML) {
-    //change console.log("clear") to function that clears displayValues
-    displayHTML = buttonHTML !== "C" ? 
-        displayId.innerHTML += buttonHTML : clearValues();
-}
-
-function resetAB () {
-    a = "";
-    b = "";
+function displayValues(a, b, c, buttonHTML) {
+    if (a == "" && c == "") {
+        displayId.innerHTML += buttonHTML;
+    } else if (b == "" && c == "") {
+        displayId.innerHTML += buttonHTML;
+    } else if (a !== "" && b !== "" && c !== "") {
+        displayId.innterHTML = c;
+    }
 }
 
 function clearValues() {
@@ -46,38 +34,62 @@ function clearValues() {
     displayId.innerHTML = "";
 }
 
+// declutter the display for readability while displaying calculated value
+function resetDisplay() {
+    if (operatorValue == "=") {
+        displayId.innerHTML = c;
+    } else {
+        a = "";
+        b = "";
+        displayId.innerHTML = c + operatorValue;
+    }
+}
+
+//variable declaration
 let a = "";
 let b = "";
 let c = "";
 let operatorValue = "";
 let displayHTML = "";
 
-const numberValue = document.querySelectorAll(".numberButton");
-
-//when a button is pressed display the button html
+//get Id and Classes
 var calculator = document.getElementById("calculator");
 let displayId = document.getElementById("displayText");
+const numberValue = document.querySelectorAll(".numberButton");
+
 calculator.addEventListener("click", (event) => {
     const isbutton = event.target.nodeName === "BUTTON";
     var buttonClass = event.target.className;
+    //only when a button is pressed display the button html
     if (!isbutton) {
         return;
-    }
-
-    let buttonHTML = event.target.innerHTML;
-    displayValues(buttonHTML);
-
-    if (buttonClass == "operatorButton" && operatorValue == "") {
-        operatorValue = buttonHTML;
-    } else if (buttonClass == "operatorButton" && operatorValue !== "" && c == "") {
-        displayValues(operate(operatorValue, Number(a), Number(b))); 
-        console.log(a);
-    } else if (buttonClass == "operatorButton" && operatorValue !== "" && c !== "") {
-        displayValues(operate(operatorValue, Number(c), Number(a))); 
-    } else if (buttonClass == "numberButton" && operatorValue == "") {
-        a += buttonHTML;
-    } else if (buttonClass == "numberButton" && operatorValue !== "") {
-        b += buttonHTML;
-
+    } else {
+        //display first and second nunber and update the display to calculated number
+        //and operator after the second operator is pressed for less clutter
+        let buttonHTML = event.target.innerHTML;
+        
+        if (buttonHTML == "C") {
+            clearValues();
+        } else if (buttonClass == "operatorButton" && operatorValue == "" && c == "") {
+            operatorValue = buttonHTML;
+            displayId.innerHTML += buttonHTML;
+        } else if (buttonClass == "operatorButton" && operatorValue !== "" && c == "") {
+            operate(a, b, operatorValue);
+            operatorValue = buttonHTML;
+            displayValues(a, b, c, buttonHTML); 
+            resetDisplay(a, b, c, operatorValue); //logic tbd
+        } else if (buttonClass == "operatorButton" && operatorValue !== "" && c !== "") {
+            operate(c, b, operatorValue);
+            operatorValue = buttonHTML;
+            displayValues(a, b, c, buttonHTML); 
+            resetDisplay(a, b, c, operatorValue); //logic tbd
+        } else if (buttonClass == "numberButton" && operatorValue == "") {
+            a += buttonHTML;
+            displayId.innerHTML += buttonHTML;
+        } else if (buttonClass == "numberButton" && operatorValue !== "") {
+            //reset b before this
+            b += buttonHTML;
+            displayId.innerHTML += buttonHTML;
+        }
     }
 })
