@@ -70,6 +70,10 @@ calculator.addEventListener("click", (event) => {
         
         if (buttonHTML == "C") {
             clearValues();
+        } else if (buttonHTML == "0" && operatorValue == "/") {
+            alert("Error dividing my zero");
+        } else if (buttonClass == "operatorButton" && operatorValue == "" && a == "") {
+            clearValues();
         } else if (buttonClass == "operatorButton" && operatorValue == "" && c == "") {
             operatorValue = buttonHTML;
             displayId.innerHTML += buttonHTML;
@@ -77,12 +81,12 @@ calculator.addEventListener("click", (event) => {
             operate(a, b, operatorValue);
             operatorValue = buttonHTML;
             displayValues(a, b, c, buttonHTML); 
-            resetDisplay(a, b, c, operatorValue); //logic tbd
-        } else if (buttonClass == "operatorButton" && operatorValue !== "" && c !== "") {
+            resetDisplay(a, b, c, operatorValue);
+        } else if (buttonClass == "operatorButton" && operatorValue !== "" && b !== "" && c !== "") {
             operate(c, b, operatorValue);
             operatorValue = buttonHTML;
             displayValues(a, b, c, buttonHTML); 
-            resetDisplay(a, b, c, operatorValue); //logic tbd
+            resetDisplay(a, b, c, operatorValue);
         } else if (buttonClass == "numberButton" && operatorValue == "") {
             a += buttonHTML;
             displayId.innerHTML += buttonHTML;
